@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<title>STAR — Inhaltliche Freigabe (Fragebogen für GfaW)</title>
+<title>STAR — Inhaltliche Freigabe (Fragebogen für die GfaW)</title>
 </head>
 <body>
 <style>
@@ -43,92 +43,62 @@
   }
 
   *{box-sizing:border-box}
-  body{
-    margin:0; background:var(--ground); color:var(--ink);
-    font-family:var(--sans); font-size:16px; line-height:1.6;
-    -webkit-font-smoothing:antialiased;
-  }
+  body{margin:0; background:var(--ground); color:var(--ink);
+    font-family:var(--sans); font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased}
   .wrap{max-width:var(--maxw); margin:0 auto; padding:0 20px 96px}
 
-  /* ---- Kopf ---- */
   header{padding:52px 0 8px}
-  .eyebrow{
-    font-size:12.5px; letter-spacing:.16em; text-transform:uppercase;
-    color:var(--accent); font-weight:650; margin:0 0 14px;
-  }
-  h1{
-    font-family:var(--serif); font-weight:600; font-size:clamp(30px,5.5vw,42px);
-    line-height:1.12; letter-spacing:-.01em; text-wrap:balance; margin:0 0 16px;
-  }
+  .eyebrow{font-size:12.5px; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--accent); font-weight:650; margin:0 0 14px}
+  h1{font-family:var(--serif); font-weight:600; font-size:clamp(30px,5.5vw,42px);
+    line-height:1.12; letter-spacing:-.01em; text-wrap:balance; margin:0 0 16px}
   .lede{font-size:17.5px; color:var(--ink); max-width:64ch; margin:0 0 8px}
-  .lede .to{color:var(--accent-2); font-weight:600}
   .sub{color:var(--muted); max-width:64ch; margin:14px 0 0}
 
-  .meta{
-    display:flex; flex-wrap:wrap; gap:14px; margin:28px 0 6px;
-  }
+  .meta{display:flex; flex-wrap:wrap; gap:14px; margin:28px 0 6px}
   .meta label{display:flex; flex-direction:column; gap:5px; font-size:12.5px;
     letter-spacing:.04em; text-transform:uppercase; color:var(--muted); font-weight:600}
-  .meta input{
-    font:inherit; font-size:15px; text-transform:none; letter-spacing:normal;
+  .meta input{font:inherit; font-size:15px; text-transform:none; letter-spacing:normal;
     color:var(--ink); background:var(--surface); border:1px solid var(--line-strong);
-    border-radius:9px; padding:9px 12px; min-width:200px;
-  }
+    border-radius:9px; padding:9px 12px; min-width:200px}
   .meta input:focus-visible{outline:2px solid var(--accent); outline-offset:1px; border-color:var(--accent)}
 
-  .howto{
-    display:flex; gap:13px; align-items:flex-start; margin:26px 0 0;
-    background:var(--accent-soft); border:1px solid var(--line);
-    border-radius:var(--radius); padding:15px 17px;
-  }
+  .howto{display:flex; gap:13px; align-items:flex-start; margin:26px 0 0;
+    background:var(--accent-soft); border:1px solid var(--line); border-radius:var(--radius); padding:15px 17px}
   .howto .dot{flex:0 0 auto; width:26px; height:26px; border-radius:50%;
-    background:var(--accent); color:#fff; display:grid; place-items:center;
+    background:var(--accent); color:var(--surface); display:grid; place-items:center;
     font-weight:700; font-size:15px; margin-top:1px}
-  :root[data-theme="dark"] .howto .dot,
-  @media (prefers-color-scheme:dark){.howto .dot{color:#121613}}
   .howto p{margin:0; font-size:14.5px; color:var(--ink)}
   .howto b{color:var(--accent-2)}
 
-  /* ---- Werkzeugleiste ---- */
-  .bar{
-    position:sticky; top:0; z-index:20; margin:26px 0 8px;
+  .bar{position:sticky; top:0; z-index:20; margin:26px 0 8px;
     background:color-mix(in srgb, var(--ground) 86%, transparent);
     backdrop-filter:blur(9px); -webkit-backdrop-filter:blur(9px);
     border:1px solid var(--line); border-radius:12px;
-    padding:11px 13px; display:flex; align-items:center; gap:12px; flex-wrap:wrap;
-  }
+    padding:11px 13px; display:flex; align-items:center; gap:12px; flex-wrap:wrap}
   .prog{display:flex; align-items:center; gap:11px; flex:1 1 auto; min-width:190px}
   .prog .track{flex:1; height:7px; border-radius:99px; background:var(--line-strong); overflow:hidden}
   .prog .fill{height:100%; width:0; background:linear-gradient(90deg,var(--accent),var(--accent-2)); transition:width .35s ease}
   .prog .count{font-size:13px; color:var(--muted); font-variant-numeric:tabular-nums; white-space:nowrap}
-  .btn{
-    font:inherit; font-size:13.5px; font-weight:600; cursor:pointer;
+  .btn{font:inherit; font-size:13.5px; font-weight:600; cursor:pointer;
     border:1px solid var(--line-strong); background:var(--surface); color:var(--ink);
     border-radius:9px; padding:8px 13px; display:inline-flex; align-items:center; gap:7px;
-    transition:border-color .15s, background .15s, transform .05s;
-  }
+    transition:border-color .15s, background .15s, transform .05s}
   .btn:hover{border-color:var(--accent)}
   .btn:active{transform:translateY(1px)}
   .btn:focus-visible{outline:2px solid var(--accent); outline-offset:1px}
-  .btn.primary{background:var(--accent); color:#fff; border-color:var(--accent)}
-  :root[data-theme="dark"] .btn.primary{color:#121613}
-  @media (prefers-color-scheme:dark){.btn.primary{color:#121613}}
+  .btn.primary{background:var(--accent); color:var(--surface); border-color:var(--accent)}
   .btn svg{width:15px; height:15px; stroke-width:2}
 
-  /* ---- Abschnitte ---- */
-  section{
-    background:var(--surface); border:1px solid var(--line);
-    border-radius:var(--radius); box-shadow:var(--shadow);
-    padding:26px 26px 22px; margin:20px 0;
-  }
+  section{background:var(--surface); border:1px solid var(--line);
+    border-radius:var(--radius); box-shadow:var(--shadow); padding:26px 26px 22px; margin:20px 0}
   .s-head{display:flex; gap:16px; align-items:baseline; margin:0 0 4px}
-  .s-num{font-family:var(--serif); font-size:22px; color:var(--accent);
-    font-weight:600; line-height:1; flex:0 0 auto; min-width:1.4em; font-variant-numeric:tabular-nums}
+  .s-num{font-family:var(--serif); font-size:22px; color:var(--accent); font-weight:600;
+    line-height:1; flex:0 0 auto; min-width:1.4em; font-variant-numeric:tabular-nums}
   .s-title{font-family:var(--serif); font-weight:600; font-size:22px; letter-spacing:-.01em; margin:0; text-wrap:balance}
   .s-intro{color:var(--muted); font-size:14.5px; margin:8px 0 20px; padding-left:calc(1.4em + 16px)}
   @media (max-width:560px){.s-intro{padding-left:0}}
 
-  /* ---- Frage ---- */
   .q{border-top:1px solid var(--line); padding:18px 0 4px}
   .q:first-of-type{border-top:0; padding-top:2px}
   .q-head{display:flex; gap:11px; align-items:baseline; flex-wrap:wrap}
@@ -146,10 +116,9 @@
   @media (max-width:560px){.resp{padding-left:0}}
   .opts{display:flex; gap:9px; flex-wrap:wrap}
   .opt{position:relative; cursor:pointer}
-  .opt input{position:absolute; opacity:0; inset:0; cursor:pointer}
+  .opt input{position:absolute; opacity:0; inset:0; cursor:pointer; margin:0}
   .opt span{display:inline-flex; align-items:center; gap:7px; font-size:13.5px; font-weight:600;
-    border:1px solid var(--line-strong); border-radius:99px; padding:6px 13px 6px 11px; color:var(--muted);
-    transition:all .14s}
+    border:1px solid var(--line-strong); border-radius:99px; padding:6px 13px 6px 11px; color:var(--muted); transition:all .14s}
   .opt span::before{content:""; width:13px; height:13px; border-radius:50%;
     border:1.5px solid var(--line-strong); transition:all .14s; flex:0 0 auto}
   .opt input:checked + span{border-color:var(--accent); color:var(--accent-2); background:var(--accent-soft)}
@@ -158,11 +127,9 @@
   .opt.change input:checked + span{border-color:var(--flag); color:var(--flag); background:var(--flag-soft)}
   .opt.change input:checked + span::before{border-color:var(--flag); background:var(--flag)}
 
-  textarea{
-    font:inherit; font-size:14.5px; line-height:1.55; color:var(--ink);
+  textarea{font:inherit; font-size:14.5px; line-height:1.55; color:var(--ink);
     background:var(--ground); border:1px solid var(--line-strong); border-radius:10px;
-    padding:11px 13px; width:100%; min-height:52px; resize:vertical;
-  }
+    padding:11px 13px; width:100%; min-height:52px; resize:vertical}
   textarea::placeholder{color:var(--muted); opacity:.75}
   textarea:focus-visible{outline:2px solid var(--accent); outline-offset:1px; border-color:var(--accent); background:var(--surface)}
 
@@ -170,12 +137,10 @@
   footer .save{display:inline-flex; align-items:center; gap:7px; color:var(--accent-2)}
   footer .save svg{width:14px;height:14px}
 
-  .toast{
-    position:fixed; left:50%; bottom:26px; transform:translateX(-50%) translateY(20px);
+  .toast{position:fixed; left:50%; bottom:26px; transform:translateX(-50%) translateY(20px);
     background:var(--ink); color:var(--surface); font-size:14px; font-weight:600;
     padding:11px 18px; border-radius:99px; box-shadow:var(--shadow);
-    opacity:0; pointer-events:none; transition:opacity .25s, transform .25s; z-index:50;
-  }
+    opacity:0; pointer-events:none; transition:opacity .25s, transform .25s; z-index:50}
   .toast.show{opacity:1; transform:translateX(-50%) translateY(0)}
 
   @media print{
@@ -185,14 +150,15 @@
     textarea{min-height:auto}
   }
   @media (prefers-reduced-motion:reduce){*{transition:none !important}}
+
 </style>
 
 <div class="wrap">
   <header>
     <p class="eyebrow">STAR · Fachliche Abstimmung</p>
-    <h1>Inhaltliche Freigabe & offene Fragen zum STAR-Tool</h1>
-    <p class="lede">Liebe <span class="to">Sophie</span>, das neue STAR-Tool ist technisch weit — die gesamte Fachlichkeit aus dem Konzept ist eingebaut. Bevor der Pilot startet, brauche ich an ein paar Stellen eure <strong>inhaltliche Freigabe bzw. Entscheidung</strong>. Das sind bewusst keine technischen Fragen, sondern Punkte, die nur ihr fachlich beantworten könnt.</p>
-    <p class="sub">Antworte einfach direkt in den Feldern. Wo alles passt, genügt ein Klick auf <em>„Passt so"</em> — nur wo etwas geändert werden soll, bitte kurz notieren. Nichts muss auf einmal sein; die eiligsten Blöcke sind mit <span style="color:var(--flag);font-weight:700">Blocker für den Pilot</span> markiert.</p>
+    <h1>Inhaltliche Freigabe des STAR-Tools</h1>
+    <p class="lede">Das neue STAR-Tool ist technisch weit — die gesamte Fachlichkeit aus dem Konzept ist eingebaut. Vor dem Pilot braucht es an einigen Stellen die <strong>inhaltliche Freigabe bzw. Entscheidung</strong> der GfaW. Das sind bewusst keine technischen Fragen, sondern Punkte, die nur fachlich beantwortet werden können.</p>
+    <p class="sub">Bitte direkt in den Feldern antworten. Wo alles passt, genügt ein Klick auf <em>„Passt so“</em> — nur wo etwas geändert werden soll, bitte kurz notieren. Nichts muss auf einmal sein; die eiligsten Punkte sind mit <span style="color:var(--flag);font-weight:700">Blocker für den Pilot</span> markiert.</p>
 
     <div class="meta">
       <label>Bearbeitet von
@@ -205,7 +171,7 @@
 
     <div class="howto">
       <span class="dot">i</span>
-      <p>Am Ende auf <b>„Antworten kopieren"</b> tippen und alles in eine E-Mail an mich einfügen — oder <b>„Als Datei speichern"</b> und anhängen. Eure Eingaben werden im Browser automatisch zwischengespeichert, gehen also beim Schließen nicht verloren.</p>
+      <p>Am Ende auf <b>„Antworten kopieren“</b> tippen und alles in eine E-Mail einfügen — oder <b>„Als Datei speichern“</b> und anhängen. Die Eingaben werden im Browser automatisch zwischengespeichert und gehen beim Schließen nicht verloren.</p>
     </div>
   </header>
 
@@ -214,15 +180,15 @@
       <div class="track"><div class="fill" id="fill"></div></div>
       <span class="count" id="count">0 / 0 beantwortet</span>
     </div>
-    <button class="btn primary" id="copy">
+    <button class="btn primary" id="copy" type="button">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
       Antworten kopieren
     </button>
-    <button class="btn" id="download">
+    <button class="btn" id="download" type="button">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 21h14"/></svg>
       Als Datei speichern
     </button>
-    <button class="btn" id="print">
+    <button class="btn" id="print" type="button">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 9V3h12v6M6 18H4v-6h16v6h-2M8 14h8v7H8z"/></svg>
       Drucken / PDF
     </button>
@@ -230,134 +196,186 @@
 
   <main id="form">
 
-    <section data-title="1 · Fragenkatalog (95 Fragen)">
-      <div class="s-head"><span class="s-num">1</span><h2 class="s-title">Fragenkatalog (95 Fragen)</h2></div>
-      <p class="s-intro">Der komplette Katalog aus dem Konzept ist hinterlegt. Bitte einmal fachlich gegenprüfen — die Reihenfolge lässt sich später bequem per Drag-&-Drop im Admin ändern.</p>
+<section data-title="1 · Fragenkatalog (95 Fragen)">
+<div class="s-head"><span class="s-num">1</span><h2 class="s-title">Fragenkatalog (95 Fragen)</h2></div>
+<p class="s-intro">Der komplette Katalog aus dem Konzept ist hinterlegt. Bitte einmal fachlich gegenprüfen — die Reihenfolge lässt sich später bequem per Drag-&amp;-Drop im Admin ändern.</p>
+<div class="q" data-q="1.1">
+<div class="q-head"><span class="q-num">1.1</span><p class="q-text">Sind die 95 Fragen in Text, Rubrik-Zuordnung, Aspekt und Reihenfolge korrekt?</p><span class="chip chip-flag">Blocker für Pilot</span></div>
+<div class="resp">
+<div class="opts"><label class="opt"><input type="radio" name="r-1.1" value="Passt so"><span>Passt so</span></label><label class="opt change"><input type="radio" name="r-1.1" value="Änderung nötig"><span>Änderung nötig</span></label></div>
+<textarea data-a="1.1" placeholder="Anmerkungen (optional) …"></textarea>
+</div></div>
+<div class="q" data-q="1.2">
+<div class="q-head"><span class="q-num">1.2</span><p class="q-text">Stimmen die Zuordnungen je Frage — welche Unternehmensarten (EPU / Produktion / Handel / Handwerk / Dienstleistung) und welche Betriebsgröße (unter / ab 15 Vollzeitstellen) eine Frage betrifft?</p></div>
+<div class="resp">
+<div class="opts"><label class="opt"><input type="radio" name="r-1.2" value="Passt so"><span>Passt so</span></label><label class="opt change"><input type="radio" name="r-1.2" value="Änderung nötig"><span>Änderung nötig</span></label></div>
+<textarea data-a="1.2" placeholder="Anmerkungen (optional) …"></textarea>
+</div></div>
+<div class="q" data-q="1.3">
+<div class="q-head"><span class="q-num">1.3</span><p class="q-text">Ist die Grenze von 15 Vollzeitstellen als Schwelle zwischen „klein“ und „groß“ so bestätigt?</p></div>
+<div class="resp">
+<div class="opts"><label class="opt"><input type="radio" name="r-1.3" value="Passt so"><span>Passt so</span></label><label class="opt change"><input type="radio" name="r-1.3" value="Änderung nötig"><span>Änderung nötig</span></label></div>
+<textarea data-a="1.3" placeholder="Anmerkungen (optional) …"></textarea>
+</div></div>
+<div class="q" data-q="1.4">
+<div class="q-head"><span class="q-num">1.4</span><p class="q-text">Sind die Markierungen „zwingend im Bericht“ vollständig und richtig gesetzt?</p></div>
+<div class="resp">
+<div class="opts"><label class="opt"><input type="radio" name="r-1.4" value="Passt so"><span>Passt so</span></label><label class="opt change"><input type="radio" name="r-1.4" value="Änderung nötig"><span>Änderung nötig</span></label></div>
+<textarea data-a="1.4" placeholder="Anmerkungen (optional) …"></textarea>
+</div></div>
+<div class="q" data-q="1.5">
+<div class="q-head"><span class="q-num">1.5</span><p class="q-text">Sind die hinterlegten Erläuterungstexte (für Kunden), die Prüf-Hinweise (für Auditor:innen) und die Indikatoren fachlich freigegeben?</p></div>
+<div class="resp">
+<div class="opts"><label class="opt"><input type="radio" name="r-1.5" value="Passt so"><span>Passt so</span></label><label class="opt change"><input type="radio" name="r-1.5" value="Änderung nötig"><span>Änderung nötig</span></label></div>
+<textarea data-a="1.5" placeholder="Anmerkungen (optional) …"></textarea>
+</div></div>
+<div class="q" data-q="1.6">
+<div class="q-head"><span class="q-num">1.6</span><p class="q-text">Ist die Liste der Unternehmensarten (EPU, Produktion, Handel, Handwerk, Dienstleistung) vollständig und richtig benannt?</p></div>
+<div class="resp">
+<div class="opts"><label class="opt"><input type="radio" name="r-1.6" value="Passt so"><span>Passt so</span></label><label class="opt change"><input type="radio" name="r-1.6" value="Änderung nötig"><span>Änderung nötig</span></label></div>
+<textarea data-a="1.6" placeholder="Anmerkungen (optional) …"></textarea>
+</div></div>
+</section>
 
-      <div class="q" data-q="1.1">
-        <div class="q-head"><span class="q-num">1.1</span><p class="q-text">Sind die 95 Fragen in Text, Rubrik-Zuordnung, Aspekt und Reihenfolge korrekt?</p><span class="chip chip-flag">Blocker für Pilot</span></div>
-      </div>
-      <div class="q" data-q="1.2">
-        <div class="q-head"><span class="q-num">1.2</span><p class="q-text">Stimmen die Zuordnungen je Frage — welche Unternehmensarten (EPU / Produktion / Handel / Handwerk / Dienstleistung) und welche Betriebsgröße (unter / ab 15 Vollzeitstellen) eine Frage betrifft?</p></div>
-      </div>
-      <div class="q" data-q="1.3">
-        <div class="q-head"><span class="q-num">1.3</span><p class="q-text">Ist die Grenze von 15 Vollzeitstellen als Schwelle zwischen „klein" und „groß" so bestätigt?</p></div>
-      </div>
-      <div class="q" data-q="1.4">
-        <div class="q-head"><span class="q-num">1.4</span><p class="q-text">Sind die Markierungen „zwingend im Bericht" vollständig und richtig gesetzt?</p></div>
-      </div>
-      <div class="q" data-q="1.5">
-        <div class="q-head"><span class="q-num">1.5</span><p class="q-text">Sind die hinterlegten Erläuterungstexte (für Kunden), die Prüf-Hinweise (für Auditor:innen) und die Indikatoren fachlich freigegeben?</p></div>
-      </div>
-      <div class="q" data-q="1.6">
-        <div class="q-head"><span class="q-num">1.6</span><p class="q-text">Ist die Liste der Unternehmensarten (EPU, Produktion, Handel, Handwerk, Dienstleistung) vollständig und richtig benannt?</p></div>
-      </div>
-    </section>
+<section data-title="2 · Rubriken & Bewertungslogik">
+<div class="s-head"><span class="s-num">2</span><h2 class="s-title">Rubriken &amp; Bewertungslogik</h2></div>
+<p class="s-intro">Der Stern hat 7 Rubriken; bewertet wird ohne Gesamtnote — je Rubrik ein Vollständigkeitsgrad plus ein kategoriales Auditergebnis.</p>
+<div class="q" data-q="2.1">
+<div class="q-head"><span class="q-num">2.1</span><p class="q-text">Sind die 7 Rubriken in Titel, Reihenfolge und Farbe final?</p></div>
+<p class="q-why"><b>Hinweis:</b> Die Rubrikfarbe steuert Stern-Zacke und Berichts-Überschriften.</p>
+<div class="resp">
+<div class="opts"><label class="opt"><input type="radio" name="r-2.1" value="Passt so"><span>Passt so</span></label><label class="opt change"><input type="radio" name="r-2.1" value="Änderung nötig"><span>Änderung nötig</span></label></div>
+<textarea data-a="2.1" placeholder="Anmerkungen (optional) …"></textarea>
+</div></div>
+<div class="q" data-q="2.2">
+<div class="q-head"><span class="q-num">2.2</span><p class="q-text">Sind die Bezeichnungen der Auditergebnisse abgenommen: konform · teilweise erfüllt · Abweichung · nicht geprüft · nicht relevant?</p></div>
+<div class="resp">
+<div class="opts"><label class="opt"><input type="radio" name="r-2.2" value="Passt so"><span>Passt so</span></label><label class="opt change"><input type="radio" name="r-2.2" value="Änderung nötig"><span>Änderung nötig</span></label></div>
+<textarea data-a="2.2" placeholder="Anmerkungen (optional) …"></textarea>
+</div></div>
+<div class="q" data-q="2.3">
+<div class="q-head"><span class="q-num">2.3</span><p class="q-text">Ist der Abweichungsprozess fachlich so gewollt: Eine markierte Abweichung blockiert den Audit-Abschluss (der Bericht-Download bleibt möglich), bis sie behoben und neu bewertet ist?</p></div>
+<div class="resp">
+<div class="opts"><label class="opt"><input type="radio" name="r-2.3" value="Passt so"><span>Passt so</span></label><label class="opt change"><input type="radio" name="r-2.3" value="Änderung nötig"><span>Änderung nötig</span></label></div>
+<textarea data-a="2.3" placeholder="Anmerkungen (optional) …"></textarea>
+</div></div>
+</section>
 
-    <section data-title="2 · Rubriken & Bewertungslogik">
-      <div class="s-head"><span class="s-num">2</span><h2 class="s-title">Rubriken &amp; Bewertungslogik</h2></div>
-      <p class="s-intro">Der Stern hat 7 Rubriken; bewertet wird ohne Gesamtnote — je Rubrik ein Vollständigkeitsgrad plus ein kategoriales Auditergebnis.</p>
+<section data-title="3 · Controlling-Kennzahlen & CO₂-Faktoren">
+<div class="s-head"><span class="s-num">3</span><h2 class="s-title">Controlling-Kennzahlen &amp; CO₂-Faktoren</h2></div>
+<p class="s-intro">Beides ist aus den GfaW-Tabellen übernommen und braucht eine fachliche Bestätigung samt Pflege-Zuständigkeit.</p>
+<div class="q" data-q="3.1">
+<div class="q-head"><span class="q-num">3.1</span><p class="q-text">Sind die Controlling-Kennzahlen (Namen, Einheiten, Zuordnung zum Bereich) korrekt — und ist je Bereich die passende Bezugsgröße (z. B. Umsatz, Mitarbeitendenzahl) hinterlegt?</p></div>
+<div class="resp">
+<div class="opts"><label class="opt"><input type="radio" name="r-3.1" value="Passt so"><span>Passt so</span></label><label class="opt change"><input type="radio" name="r-3.1" value="Änderung nötig"><span>Änderung nötig</span></label></div>
+<textarea data-a="3.1" placeholder="Anmerkungen (optional) …"></textarea>
+</div></div>
+<div class="q" data-q="3.2">
+<div class="q-head"><span class="q-num">3.2</span><p class="q-text">Sind die CO₂-Faktoren korrekt (Quelle, Stand)? Und: Wer aktualisiert sie künftig in welchem Rhythmus (voraussichtlich jährlich)?</p></div>
+<div class="resp">
+<textarea data-a="3.2" placeholder="Antwort …"></textarea>
+</div></div>
+</section>
 
-      <div class="q" data-q="2.1">
-        <div class="q-head"><span class="q-num">2.1</span><p class="q-text">Sind die 7 Rubriken in Titel, Reihenfolge und Farbe final?</p></div>
-        <p class="q-why"><b>Hintergrund:</b> Die Rubrikfarbe steuert Stern-Zacke und Berichts-Überschriften.</p>
-      </div>
-      <div class="q" data-q="2.2">
-        <div class="q-head"><span class="q-num">2.2</span><p class="q-text">Sind die Bezeichnungen der Auditergebnisse abgenommen: konform · teilweise erfüllt · Abweichung · nicht geprüft · nicht relevant?</p></div>
-      </div>
-      <div class="q" data-q="2.3">
-        <div class="q-head"><span class="q-num">2.3</span><p class="q-text">Ist der Abweichungsprozess fachlich so gewollt: Eine markierte Abweichung blockiert den Audit-Abschluss (der Bericht-Download bleibt möglich), bis sie behoben und neu bewertet ist?</p></div>
-      </div>
-    </section>
+<section data-title="4 · Regelwerke: VSME / ESRS / DNK">
+<div class="s-head"><span class="s-num">4</span><h2 class="s-title">Regelwerke: VSME / ESRS / DNK</h2></div>
+<p class="s-intro">Das Tool kann STAR-Antworten automatisch in einen VSME-Berichtsentwurf überführen und getaggte CSRD/VSME-Berichte einlesen — Grundlage ist eine Zuordnungstabelle Frage ↔ Datenpunkt.</p>
+<div class="q" data-q="4.1">
+<div class="q-head"><span class="q-num">4.1</span><p class="q-text">VSME-Zuordnung: Welche STAR-Frage entspricht welchem VSME-Datenpunkt? Und auf welche VSME-Fassung beziehen wir uns?</p></div>
+<p class="q-why"><b>Hinweis:</b> Ohne diese Zuordnung kann der VSME-Export und der Import nicht automatisch mappen. Gern als separate Liste/Tabelle nachreichen.</p>
+<div class="resp">
+<textarea data-a="4.1" placeholder="Antwort …"></textarea>
+</div></div>
+<div class="q" data-q="4.2">
+<div class="q-head"><span class="q-num">4.2</span><p class="q-text">Sollen zusätzlich Zuordnungen zu ESRS und/oder DNK gepflegt werden? (Technisch dieselbe Tabelle, kein Zusatzaufwand in der Software.)</p></div>
+<div class="resp">
+<div class="opts"><label class="opt"><input type="radio" name="r-4.2" value="Passt so"><span>Passt so</span></label><label class="opt change"><input type="radio" name="r-4.2" value="Änderung nötig"><span>Änderung nötig</span></label></div>
+<textarea data-a="4.2" placeholder="Anmerkungen (optional) …"></textarea>
+</div></div>
+<div class="q" data-q="4.3">
+<div class="q-head"><span class="q-num">4.3</span><p class="q-text">Sollen die Felder „Überschneidungen mit anderen Regelwerken“ (z. B. GWÖ, DNK) je Frage inhaltlich befüllt werden — und wenn ja, durch wen?</p></div>
+<div class="resp">
+<textarea data-a="4.3" placeholder="Antwort …"></textarea>
+</div></div>
+</section>
 
-    <section data-title="3 · Controlling-Kennzahlen & CO₂-Faktoren">
-      <div class="s-head"><span class="s-num">3</span><h2 class="s-title">Controlling-Kennzahlen &amp; CO₂-Faktoren</h2></div>
-      <p class="s-intro">Beides ist aus den GfaW-Tabellen übernommen und braucht eine fachliche Bestätigung samt Pflege-Zuständigkeit.</p>
+<section data-title="5 · Weitere Standards (NB, CFF)">
+<div class="s-head"><span class="s-num">5</span><h2 class="s-title">Weitere Standards (NB, CFF)</h2></div>
+<p class="s-intro">Die Technik für mehrere Standards mit eigenen Rubriken und Katalogen steht; es fehlen nur die Inhalte.</p>
+<div class="q" data-q="5.1">
+<div class="q-head"><span class="q-num">5.1</span><p class="q-text">Für „Nachhaltigkeitsbericht (NB)“ und „Certified for Future (CFF)“: Wer liefert Rubriken, Farben und Fragenkataloge — und bis wann?</p></div>
+<div class="resp">
+<textarea data-a="5.1" placeholder="Antwort …"></textarea>
+</div></div>
+</section>
 
-      <div class="q" data-q="3.1">
-        <div class="q-head"><span class="q-num">3.1</span><p class="q-text">Sind die Controlling-Kennzahlen (Namen, Einheiten, Zuordnung zum Bereich) korrekt — und ist je Bereich die passende Bezugsgröße (z. B. Umsatz, Mitarbeitendenzahl) hinterlegt?</p></div>
-      </div>
-      <div class="q open" data-q="3.2">
-        <div class="q-head"><span class="q-num">3.2</span><p class="q-text">Sind die CO₂-Faktoren korrekt (Quelle, Stand)? Und: Wer aktualisiert sie künftig in welchem Rhythmus (voraussichtlich jährlich)?</p></div>
-      </div>
-    </section>
+<section data-title="6 · Dokumente & Berichts-Layout">
+<div class="s-head"><span class="s-num">6</span><h2 class="s-title">Dokumente &amp; Berichts-Layout</h2></div>
+<p class="s-intro">Beispieldokumente und die generierten Word-Berichte brauchen eine Freigabe fürs Aussehen und den Inhalt.</p>
+<div class="q" data-q="6.1">
+<div class="q-head"><span class="q-num">6.1</span><p class="q-text">Welche der hinterlegten Beispieldokumente sind final und dürfen an Kunden ausgeliefert werden? (Bitte je Dokument Version/Freigabe bestätigen.)</p></div>
+<div class="resp">
+<textarea data-a="6.1" placeholder="Antwort …"></textarea>
+</div></div>
+<div class="q" data-q="6.2">
+<div class="q-head"><span class="q-num">6.2</span><p class="q-text">Auditbericht: Sind Kopftexte, die Bezeichnungen der Bewertungsstufen und der Gesamtaufbau so abgenommen? Soll ein GfaW-Logo / Briefkopf in die Word-Exporte (bitte Logo-Datei beilegen)?</p></div>
+<div class="resp">
+<div class="opts"><label class="opt"><input type="radio" name="r-6.2" value="Passt so"><span>Passt so</span></label><label class="opt change"><input type="radio" name="r-6.2" value="Änderung nötig"><span>Änderung nötig</span></label></div>
+<textarea data-a="6.2" placeholder="Anmerkungen (optional) …"></textarea>
+</div></div>
+<div class="q" data-q="6.3">
+<div class="q-head"><span class="q-num">6.3</span><p class="q-text">Nachhaltigkeitsbericht: Ist die Struktur (Deckblatt → Übersicht je Rubrik → Rubrik/Aspekt/Frage) inhaltlich freigegeben, und sind die Rubrikfarben final?</p></div>
+<div class="resp">
+<div class="opts"><label class="opt"><input type="radio" name="r-6.3" value="Passt so"><span>Passt so</span></label><label class="opt change"><input type="radio" name="r-6.3" value="Änderung nötig"><span>Änderung nötig</span></label></div>
+<textarea data-a="6.3" placeholder="Anmerkungen (optional) …"></textarea>
+</div></div>
+</section>
 
-    <section data-title="4 · Regelwerke: VSME / ESRS / DNK">
-      <div class="s-head"><span class="s-num">4</span><h2 class="s-title">Regelwerke: VSME / ESRS / DNK</h2></div>
-      <p class="s-intro">Das Tool kann STAR-Antworten automatisch in einen VSME-Berichtsentwurf überführen und getaggte CSRD/VSME-Berichte einlesen — Grundlage ist eine Zuordnungstabelle Frage ↔ Datenpunkt.</p>
+<section data-title="7 · Zuständigkeit & Rollen">
+<div class="s-head"><span class="s-num">7</span><h2 class="s-title">Zuständigkeit &amp; Rollen</h2></div>
+<p class="s-intro">Das System kennt vier Rollen: Kunde, Auditor:in, Zertifizierungsstelle und Admin.</p>
+<div class="q" data-q="7.1">
+<div class="q-head"><span class="q-num">7.1</span><p class="q-text">Wer bei der GfaW übernimmt künftig die laufende Pflege im Admin-Bereich (Fragen, Versionen, Regelwerk-Zuordnungen, Benutzerkonten)? Für diese Person biete ich gern eine kurze Einweisung an.</p></div>
+<div class="resp">
+<textarea data-a="7.1" placeholder="Antwort …"></textarea>
+</div></div>
+<div class="q" data-q="7.2">
+<div class="q-head"><span class="q-num">7.2</span><p class="q-text">Passt die Aufteilung: Kunde bearbeitet und schließt den STAR ab → Auditor:in prüft nur zugewiesene STARs → Zertifizierungsstelle sieht alles?</p></div>
+<div class="resp">
+<div class="opts"><label class="opt"><input type="radio" name="r-7.2" value="Passt so"><span>Passt so</span></label><label class="opt change"><input type="radio" name="r-7.2" value="Änderung nötig"><span>Änderung nötig</span></label></div>
+<textarea data-a="7.2" placeholder="Anmerkungen (optional) …"></textarea>
+</div></div>
+</section>
 
-      <div class="q open" data-q="4.1">
-        <div class="q-head"><span class="q-num">4.1</span><p class="q-text">VSME-Zuordnung: Welche STAR-Frage entspricht welchem VSME-Datenpunkt? Und auf welche VSME-Fassung beziehen wir uns?</p></div>
-        <p class="q-why"><b>Warum wichtig:</b> Ohne diese Zuordnung kann der VSME-Export und der Import nicht automatisch mappen. Gern als separate Liste/Tabelle nachreichen.</p>
-      </div>
-      <div class="q" data-q="4.2">
-        <div class="q-head"><span class="q-num">4.2</span><p class="q-text">Sollen zusätzlich Zuordnungen zu ESRS und/oder DNK gepflegt werden? (Technisch dieselbe Tabelle, kein Zusatzaufwand in der Software.)</p></div>
-      </div>
-      <div class="q open" data-q="4.3">
-        <div class="q-head"><span class="q-num">4.3</span><p class="q-text">Sollen die Felder „Überschneidungen mit anderen Regelwerken" (z. B. GWÖ, DNK) je Frage inhaltlich befüllt werden — und wenn ja, durch wen?</p></div>
-      </div>
-    </section>
+<section data-title="8 · Pilot">
+<div class="s-head"><span class="s-num">8</span><h2 class="s-title">Pilot</h2></div>
+<p class="s-intro">Geplant ist ein kleiner Pilot auf einer Testumgebung, zunächst nur mit dem CSE-Standard.</p>
+<div class="q" data-q="8.1">
+<div class="q-head"><span class="q-num">8.1</span><p class="q-text">Welche 1–2 wohlgesonnenen Pilotkunden und welche:r Auditor:in kämen für einen ersten Testlauf infrage?</p><span class="chip chip-flag">Blocker für Pilot</span></div>
+<div class="resp">
+<textarea data-a="8.1" placeholder="Antwort …"></textarea>
+</div></div>
+<div class="q" data-q="8.2">
+<div class="q-head"><span class="q-num">8.2</span><p class="q-text">Gibt es einen Wunsch-Zeitraum für den Pilotstart?</p></div>
+<div class="resp">
+<textarea data-a="8.2" placeholder="Antwort …"></textarea>
+</div></div>
+</section>
 
-    <section data-title="5 · Weitere Standards (NB, CFF)">
-      <div class="s-head"><span class="s-num">5</span><h2 class="s-title">Weitere Standards (NB, CFF)</h2></div>
-      <p class="s-intro">Die Technik für mehrere Standards mit eigenen Rubriken und Katalogen steht; es fehlen nur die Inhalte.</p>
-
-      <div class="q open" data-q="5.1">
-        <div class="q-head"><span class="q-num">5.1</span><p class="q-text">Für „Nachhaltigkeitsbericht (NB)" und „Certified for Future (CFF)": Wer liefert Rubriken, Farben und Fragenkataloge — und bis wann?</p></div>
-      </div>
-    </section>
-
-    <section data-title="6 · Dokumente & Berichts-Layout">
-      <div class="s-head"><span class="s-num">6</span><h2 class="s-title">Dokumente &amp; Berichts-Layout</h2></div>
-      <p class="s-intro">Beispieldokumente und die generierten Word-Berichte brauchen eine Freigabe fürs Aussehen und den Inhalt.</p>
-
-      <div class="q open" data-q="6.1">
-        <div class="q-head"><span class="q-num">6.1</span><p class="q-text">Welche der hinterlegten Beispieldokumente sind final und dürfen an Kunden ausgeliefert werden? (Bitte je Dokument Version/Freigabe bestätigen.)</p></div>
-      </div>
-      <div class="q" data-q="6.2">
-        <div class="q-head"><span class="q-num">6.2</span><p class="q-text">Auditbericht: Sind Kopftexte, die Bezeichnungen der Bewertungsstufen und der Gesamtaufbau so abgenommen? Soll ein GfaW-Logo / Briefkopf in die Word-Exporte (bitte Logo-Datei beilegen)?</p></div>
-      </div>
-      <div class="q" data-q="6.3">
-        <div class="q-head"><span class="q-num">6.3</span><p class="q-text">Nachhaltigkeitsbericht: Ist die Struktur (Deckblatt → Übersicht je Rubrik → Rubrik/Aspekt/Frage) inhaltlich freigegeben, und sind die Rubrikfarben final?</p></div>
-      </div>
-    </section>
-
-    <section data-title="7 · Zuständigkeit & Rollen">
-      <div class="s-head"><span class="s-num">7</span><h2 class="s-title">Zuständigkeit &amp; Rollen</h2></div>
-      <p class="s-intro">Das System kennt vier Rollen: Kunde, Auditor:in, Zertifizierungsstelle und Admin.</p>
-
-      <div class="q open" data-q="7.1">
-        <div class="q-head"><span class="q-num">7.1</span><p class="q-text">Wer bei der GfaW übernimmt künftig die laufende Pflege im Admin-Bereich (Fragen, Versionen, Regelwerk-Zuordnungen, Benutzerkonten)? Für diese Person biete ich gern eine kurze Einweisung an.</p></div>
-      </div>
-      <div class="q" data-q="7.2">
-        <div class="q-head"><span class="q-num">7.2</span><p class="q-text">Passt die Aufteilung: Kunde bearbeitet und schließt den STAR ab → Auditor:in prüft nur zugewiesene STARs → Zertifizierungsstelle sieht alles?</p></div>
-      </div>
-    </section>
-
-    <section data-title="8 · Pilot">
-      <div class="s-head"><span class="s-num">8</span><h2 class="s-title">Pilot</h2></div>
-      <p class="s-intro">Geplant ist ein kleiner Pilot auf einer Testumgebung, zunächst nur mit dem CSE-Standard.</p>
-
-      <div class="q open" data-q="8.1">
-        <div class="q-head"><span class="q-num">8.1</span><p class="q-text">Welche 1–2 wohlgesonnenen Pilotkunden und welche:r Auditor:in kämen für einen ersten Testlauf infrage?</p><span class="chip chip-flag">Blocker für Pilot</span></div>
-      </div>
-      <div class="q open" data-q="8.2">
-        <div class="q-head"><span class="q-num">8.2</span><p class="q-text">Gibt es einen Wunsch-Zeitraum für den Pilotstart?</p></div>
-      </div>
-    </section>
-
-    <section data-title="9 · Sonstiges">
-      <div class="s-head"><span class="s-num">9</span><h2 class="s-title">Sonstiges</h2></div>
-      <p class="s-intro">Alles, was hier nicht gefragt war, aber wichtig ist.</p>
-      <div class="q open" data-q="9.1">
-        <div class="q-head"><span class="q-num">9.1</span><p class="q-text">Weitere Anmerkungen, Wünsche oder offene Punkte von eurer Seite?</p></div>
-      </div>
-    </section>
+<section data-title="9 · Sonstiges">
+<div class="s-head"><span class="s-num">9</span><h2 class="s-title">Sonstiges</h2></div>
+<p class="s-intro">Alles, was hier nicht gefragt war, aber wichtig ist.</p>
+<div class="q" data-q="9.1">
+<div class="q-head"><span class="q-num">9.1</span><p class="q-text">Weitere Anmerkungen, Wünsche oder offene Punkte von eurer Seite?</p></div>
+<div class="resp">
+<textarea data-a="9.1" placeholder="Antwort …"></textarea>
+</div></div>
+</section>
 
   </main>
 
   <footer>
-    <span class="save" id="savestate">
+    <span class="save">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M5 13l4 4L19 7"/></svg>
       Eingaben werden automatisch im Browser gespeichert.
     </span>
@@ -368,122 +386,132 @@
 <div class="toast" id="toast"></div>
 
 <script>
+/* Reiner Komfort — die Formularfelder existieren als statisches HTML und
+   funktionieren auch ohne dieses Skript. */
 (function(){
-  var LS = "gfaw-star-fragebogen-v1";
+  var LS = 'gfaw-star-fragebogen-v2';
 
-  // Antwort-Controls in jede Frage einsetzen
-  document.querySelectorAll(".q").forEach(function(q){
-    var id = q.getAttribute("data-q");
-    var open = q.classList.contains("open");
-    var resp = document.createElement("div");
-    resp.className = "resp";
-    if(!open){
-      resp.innerHTML =
-        '<div class="opts">' +
-          '<label class="opt"><input type="radio" name="r-'+id+'" value="Passt so"><span>Passt so</span></label>' +
-          '<label class="opt change"><input type="radio" name="r-'+id+'" value="Änderung nötig"><span>Änderung nötig</span></label>' +
-        '</div>' +
-        '<textarea data-a="'+id+'" placeholder="Anmerkungen (optional) …"></textarea>';
-    } else {
-      resp.innerHTML = '<textarea data-a="'+id+'" placeholder="Antwort …"></textarea>';
-    }
-    q.appendChild(resp);
-  });
+  function grow(t){ t.style.height = 'auto'; t.style.height = Math.max(52, t.scrollHeight + 2) + 'px'; }
 
-  // Auto-Höhe für Textareas
-  function grow(t){ t.style.height="auto"; t.style.height=Math.max(52,t.scrollHeight+2)+"px"; }
-
-  // Zustand laden
+  // Gespeicherten Stand laden
   var saved = {};
-  try{ saved = JSON.parse(localStorage.getItem(LS)) || {}; }catch(e){}
-  if(saved.name) document.getElementById("m-name").value = saved.name;
-  if(saved.date) document.getElementById("m-date").value = saved.date;
-  Object.keys(saved.a||{}).forEach(function(id){
-    var t = document.querySelector('textarea[data-a="'+id+'"]'); if(t){ t.value = saved.a[id]; grow(t); }
+  try { saved = JSON.parse(localStorage.getItem(LS)) || {}; } catch (e) {}
+  var nameEl = document.getElementById('m-name');
+  var dateEl = document.getElementById('m-date');
+  if (saved.name && nameEl) nameEl.value = saved.name;
+  if (saved.date && dateEl) dateEl.value = saved.date;
+  if (saved.a) Object.keys(saved.a).forEach(function(id){
+    var t = document.querySelector('textarea[data-a="' + id + '"]');
+    if (t){ t.value = saved.a[id]; grow(t); }
   });
-  Object.keys(saved.r||{}).forEach(function(id){
-    var el = document.querySelector('input[name="r-'+id+'"][value="'+CSS.escape(saved.r[id])+'"]'); if(el) el.checked = true;
+  if (saved.r) Object.keys(saved.r).forEach(function(id){
+    document.querySelectorAll('input[name="r-' + id + '"]').forEach(function(el){
+      if (el.value === saved.r[id]) el.checked = true;
+    });
   });
 
   function collect(){
-    var data = {name:document.getElementById("m-name").value, date:document.getElementById("m-date").value, a:{}, r:{}};
-    document.querySelectorAll("textarea[data-a]").forEach(function(t){ if(t.value.trim()) data.a[t.getAttribute("data-a")] = t.value; });
-    document.querySelectorAll(".opts").forEach(function(o){
-      var c = o.querySelector("input:checked"); if(c){ data.r[c.name.slice(2)] = c.value; }
+    var data = { name: nameEl ? nameEl.value : '', date: dateEl ? dateEl.value : '', a: {}, r: {} };
+    document.querySelectorAll('textarea[data-a]').forEach(function(t){
+      if (t.value.trim()) data.a[t.getAttribute('data-a')] = t.value;
+    });
+    document.querySelectorAll('input[type="radio"]:checked').forEach(function(c){
+      data.r[c.name.slice(2)] = c.value;
     });
     return data;
   }
-  function persist(){ try{ localStorage.setItem(LS, JSON.stringify(collect())); }catch(e){} }
+  function persist(){ try { localStorage.setItem(LS, JSON.stringify(collect())); } catch (e) {} }
 
   function updateProgress(){
-    var qs = document.querySelectorAll(".q"), done = 0;
+    var qs = document.querySelectorAll('.q'), done = 0;
     qs.forEach(function(q){
-      var id = q.getAttribute("data-q");
-      var t = q.querySelector('textarea[data-a="'+id+'"]');
-      var r = q.querySelector('input[name="r-'+id+'"]:checked');
-      if((t && t.value.trim()) || r) done++;
+      var id = q.getAttribute('data-q');
+      var t = q.querySelector('textarea[data-a="' + id + '"]');
+      var r = q.querySelector('input[name="r-' + id + '"]:checked');
+      if ((t && t.value.trim()) || r) done++;
     });
-    document.getElementById("fill").style.width = (qs.length? (done/qs.length*100):0) + "%";
-    document.getElementById("count").textContent = done + " / " + qs.length + " beantwortet";
+    var fill = document.getElementById('fill');
+    if (fill) fill.style.width = (qs.length ? (done / qs.length * 100) : 0) + '%';
+    var count = document.getElementById('count');
+    if (count) count.textContent = done + ' / ' + qs.length + ' beantwortet';
   }
 
-  document.getElementById("form").addEventListener("input", function(e){
-    if(e.target.tagName==="TEXTAREA") grow(e.target);
-    persist(); updateProgress();
-  });
-  document.getElementById("form").addEventListener("change", function(){ persist(); updateProgress(); });
-  ["m-name","m-date"].forEach(function(idn){ document.getElementById(idn).addEventListener("input", persist); });
+  var form = document.getElementById('form');
+  if (form){
+    form.addEventListener('input', function(e){
+      if (e.target.tagName === 'TEXTAREA') grow(e.target);
+      persist(); updateProgress();
+    });
+    form.addEventListener('change', function(){ persist(); updateProgress(); });
+  }
+  [nameEl, dateEl].forEach(function(el){ if (el) el.addEventListener('input', persist); });
 
-  // Export-Text bauen
   function buildText(){
     var d = collect();
-    var out = ["STAR — Inhaltliche Freigabe (GfaW)","",
-      "Bearbeitet von: " + (d.name||"—"),
-      "Datum: " + (d.date||"—"),
-      "".padEnd ? "".padEnd(48,"=") : "================================================", ""];
-    document.querySelectorAll("section").forEach(function(sec){
-      out.push("## " + sec.getAttribute("data-title"), "");
-      sec.querySelectorAll(".q").forEach(function(q){
-        var id = q.getAttribute("data-q");
-        var txt = q.querySelector(".q-text").textContent.trim();
+    var line = '================================================';
+    var out = ['STAR — Inhaltliche Freigabe (GfaW)', '',
+      'Bearbeitet von: ' + (d.name || '—'),
+      'Datum: ' + (d.date || '—'), line, ''];
+    document.querySelectorAll('section').forEach(function(sec){
+      out.push('## ' + sec.getAttribute('data-title'), '');
+      sec.querySelectorAll('.q').forEach(function(q){
+        var id = q.getAttribute('data-q');
+        var txt = q.querySelector('.q-text').textContent.trim();
         var r = d.r[id], a = d.a[id];
-        out.push(id + "  " + txt);
-        if(r) out.push("   → " + r);
-        if(a) out.push("   Anmerkung: " + a.replace(/\n/g,"\n     "));
-        if(!r && !a) out.push("   → (offen)");
-        out.push("");
+        out.push(id + '  ' + txt);
+        if (r) out.push('   -> ' + r);
+        if (a) out.push('   Anmerkung: ' + a.replace(/\n/g, '\n     '));
+        if (!r && !a) out.push('   -> (offen)');
+        out.push('');
       });
     });
-    return out.join("\n");
+    return out.join('\n');
   }
 
-  var toast = document.getElementById("toast"), tt;
-  function showToast(msg){ toast.textContent=msg; toast.classList.add("show"); clearTimeout(tt); tt=setTimeout(function(){toast.classList.remove("show");},2200); }
+  var toast = document.getElementById('toast'), tt;
+  function showToast(msg){
+    if (!toast) return;
+    toast.textContent = msg; toast.classList.add('show');
+    clearTimeout(tt); tt = setTimeout(function(){ toast.classList.remove('show'); }, 2400);
+  }
 
-  document.getElementById("copy").addEventListener("click", function(){
-    var text = buildText();
-    if(navigator.clipboard && navigator.clipboard.writeText){
-      navigator.clipboard.writeText(text).then(function(){ showToast("Antworten kopiert — jetzt in eine E-Mail einfügen."); },
-        function(){ fallbackCopy(text); });
-    } else fallbackCopy(text);
-  });
   function fallbackCopy(text){
-    var ta=document.createElement("textarea"); ta.value=text; ta.style.position="fixed"; ta.style.opacity="0";
-    document.body.appendChild(ta); ta.select();
-    try{ document.execCommand("copy"); showToast("Antworten kopiert."); }catch(e){ showToast("Kopieren nicht möglich — bitte „Als Datei speichern"."); }
+    var ta = document.createElement('textarea');
+    ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.focus(); ta.select();
+    var ok = false;
+    try { ok = document.execCommand('copy'); } catch (e) {}
     document.body.removeChild(ta);
+    showToast(ok ? 'Antworten kopiert.' : 'Kopieren nicht moeglich — bitte Als Datei speichern.');
   }
 
-  document.getElementById("download").addEventListener("click", function(){
-    var blob = new Blob([buildText()], {type:"text/plain;charset=utf-8"});
-    var url = URL.createObjectURL(blob), a=document.createElement("a");
-    a.href=url; a.download="STAR-Freigabe-GfaW.txt"; document.body.appendChild(a); a.click();
-    document.body.removeChild(a); URL.revokeObjectURL(url); showToast("Datei gespeichert.");
+  var copyBtn = document.getElementById('copy');
+  if (copyBtn) copyBtn.addEventListener('click', function(){
+    var text = buildText();
+    if (navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(
+        function(){ showToast('Antworten kopiert — jetzt in eine E-Mail einfuegen.'); },
+        function(){ fallbackCopy(text); }
+      );
+    } else { fallbackCopy(text); }
   });
-  document.getElementById("print").addEventListener("click", function(){ window.print(); });
 
+  var dlBtn = document.getElementById('download');
+  if (dlBtn) dlBtn.addEventListener('click', function(){
+    var blob = new Blob([buildText()], { type: 'text/plain;charset=utf-8' });
+    var url = URL.createObjectURL(blob), a = document.createElement('a');
+    a.href = url; a.download = 'STAR-Freigabe-GfaW.txt';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    URL.revokeObjectURL(url); showToast('Datei gespeichert.');
+  });
+
+  var printBtn = document.getElementById('print');
+  if (printBtn) printBtn.addEventListener('click', function(){ window.print(); });
+
+  document.querySelectorAll('textarea[data-a]').forEach(grow);
   updateProgress();
 })();
+
 </script>
 </body>
 </html>
