@@ -165,6 +165,13 @@
     this.elements = options.elements !== false;
     // Punkt an eine bestimmte Stelle „anheften" (Element-relativer Anker)
     this.points = options.points !== false;
+    // Optionaler CSS-Selektor: passende Bereiche (inkl. Nachfahren) sind von
+    // Text-/Element-/Punkt-Kommentaren ausgenommen (z. B. '#wpadminbar').
+    this.exclude = "";
+    if (options.exclude) {
+      try { document.querySelector(options.exclude); this.exclude = String(options.exclude); }
+      catch (_) { /* ungueltiger Selektor -> ignorieren statt spaeter zu werfen */ }
+    }
     this._mode = null;              // null | "element" | "point"
     this.pendingEl = null;          // {el, css, tag, fingerprint} für neue Element-Anno
     this.pendingPoint = null;       // {el, css, tag, fingerprint, rx, ry} für neuen Punkt
@@ -435,15 +442,19 @@
       var fab = null, panel = null;
       if (floating) {
         panel = el("div", "kommentare-panel kommentare-scope kommentare-hidden");
-        panel.setAttribute("role", "menu");
+        // kein role="menu": das Panel enthält gemischte Bedienelemente
+        // (Buttons, Notizliste), keine menuitem-Struktur.
+        panel.setAttribute("role", "region");
         panel.setAttribute("aria-label", T.menuTitel);
         panel.setAttribute("data-kommentare-ui", "1");
+        panel.id = newId();
         panel.appendChild(toolbar);
         if (floatingNotes) { panel.classList.add("kommentare-panel-notes"); panel.appendChild(margin); }
         fab = el("button", "kommentare-fab kommentare-scope");
         fab.type = "button";
         fab.setAttribute("aria-label", T.menuAria);
         fab.setAttribute("aria-expanded", "false");
+        fab.setAttribute("aria-controls", panel.id);
         fab.setAttribute("data-kommentare-ui", "1");
         fab.textContent = "☰";
         document.body.appendChild(panel);
@@ -551,6 +562,15 @@
           self.setTheme(self._effectiveTheme() === "dark" ? "light" : "dark");
         };
         this._themeBtn.addEventListener("click", this._onThemeToggle);
+        // Im Auto-Modus dem Systemwechsel live folgen (Knopf-Symbol aktuell halten)
+        if (global.matchMedia) {
+          this._mq = global.matchMedia("(prefers-color-scheme: dark)");
+          this._onMqChange = function () {
+            if (self._theme === "auto") self._updateThemeBtn();
+          };
+          if (this._mq.addEventListener) this._mq.addEventListener("change", this._onMqChange);
+          else if (this._mq.addListener) this._mq.addListener(this._onMqChange); // ältere Browser
+        }
       }
 
       // Floating-Menü (Button unten rechts)
@@ -637,6 +657,8 @@
       if (!this.container.contains(t)) return null;
       // werkzeugeigene UI (Panel/Overlay/Hover/…) nie als Ziel wählen
       if (t.closest && t.closest("[data-kommentare-ui]")) return null;
+      // ausgeschlossene Bereiche (Option exclude, z. B. '#wpadminbar')
+      if (this.exclude && t.closest && t.closest(this.exclude)) return null;
       return t;
     },
     _setMode: function (mode) {
@@ -658,30 +680,49 @@
       if (!this._mode) this._hideHover();
       else if (this._panelEl) this._toggleMenu(false); // Menü schließen, Sicht frei
     },
+    // Ursprung des Bezugssystems der absolut positionierten Overlays.
+    // Die Overlay-Ebene liegt bei top:0/left:0 ihres containing blocks; ihre
+    // Viewport-Position ist daher der korrekte Nullpunkt — auch wenn <body>
+    // selbst positioniert/verschoben ist (position:relative, margin, …).
+    _overlayBase: function () {
+      // Nur die Overlay-Ebene bleibt fest bei 0/0 (der Hover-Kasten wird bewegt).
+      if (!this._overlayEl) return { x: -window.scrollX, y: -window.scrollY };
+      var r = this._overlayEl.getBoundingClientRect();
+      return { x: r.left, y: r.top };
+    },
     _showHover: function (elm) {
       if (!this._hoverEl) return;
       var r = elm.getBoundingClientRect();
+      var base = this._overlayBase();
       var h = this._hoverEl;
       h.classList.remove("kommentare-hidden", "kommentare-hover-point");
-      h.style.left = (r.left + window.scrollX) + "px";
-      h.style.top = (r.top + window.scrollY) + "px";
+      h.style.left = (r.left - base.x) + "px";
+      h.style.top = (r.top - base.y) + "px";
       h.style.width = r.width + "px";
       h.style.height = r.height + "px";
     },
     _showHoverPoint: function (x, y) {
       if (!this._hoverEl) return;
+      var base = this._overlayBase();
       var h = this._hoverEl;
       h.classList.remove("kommentare-hidden");
       h.classList.add("kommentare-hover-point");
       h.style.width = ""; h.style.height = "";
-      h.style.left = (x + window.scrollX) + "px";
-      h.style.top = (y + window.scrollY) + "px";
+      h.style.left = (x - base.x) + "px";
+      h.style.top = (y - base.y) + "px";
     },
     _hideHover: function () {
       if (this._hoverEl) this._hoverEl.classList.add("kommentare-hidden");
     },
     _fingerprint: function (elm) {
-      return (elm.textContent || "").replace(/\s+/g, " ").trim().slice(0, 60);
+      var t = (elm.textContent || "").replace(/\s+/g, " ").trim();
+      // Textlose Elemente (Bilder, Icons): src/alt als Kennung, sonst findet
+      // der Fallback nur das ERSTE gleichartige Element.
+      if (!t && elm.getAttribute) {
+        t = elm.getAttribute("src") || elm.getAttribute("alt") || "";
+        t = t.slice(-60); // Dateiname/Ende der URL ist der aussagekräftige Teil
+      }
+      return t.slice(0, 60);
     },
     // Container-relativer, robuster CSS-Pfad (id als Abkürzung, sonst nth-of-type).
     _cssPathOf: function (elm) {
@@ -752,10 +793,9 @@
       if (!this._overlayEl) return;
       var self = this, T = this.texte;
       this._overlayEl.innerHTML = "";
-      var items = Array.from(this.annos.values()).filter(function (a) {
+      var items = this._sortByTop(Array.from(this.annos.values()).filter(function (a) {
         return a.kind === "element" || a.kind === "point";
-      });
-      items.sort(function (a, b) { return self._annoTop(a) - self._annoTop(b); });
+      }));
       items.forEach(function (a, i) {
         if (!self._resolveElement(a)) return;
         var marker, badge, label = (a.kind === "point" ? T.punktLabel : T.elementLabel) + " " + (i + 1);
@@ -785,6 +825,7 @@
     _positionOverlays: function () {
       if (!this._overlayEl) return;
       var self = this;
+      var base = this._overlayBase();
       this._overlayEl.querySelectorAll(".kommentare-el-mark,.kommentare-point-mark").forEach(function (marker) {
         var a = self.annos.get(marker.dataset.annoId);
         var elx = a ? self._resolveElement(a) : null;
@@ -792,11 +833,11 @@
         var r = elx.getBoundingClientRect();
         marker.style.display = "";
         if (marker.dataset.kind === "point") {
-          marker.style.left = (r.left + (a.rx || 0) * r.width + window.scrollX) + "px";
-          marker.style.top = (r.top + (a.ry || 0) * r.height + window.scrollY) + "px";
+          marker.style.left = (r.left + (a.rx || 0) * r.width - base.x) + "px";
+          marker.style.top = (r.top + (a.ry || 0) * r.height - base.y) + "px";
         } else {
-          marker.style.left = (r.left + window.scrollX) + "px";
-          marker.style.top = (r.top + window.scrollY) + "px";
+          marker.style.left = (r.left - base.x) + "px";
+          marker.style.top = (r.top - base.y) + "px";
           marker.style.width = r.width + "px";
           marker.style.height = r.height + "px";
         }
@@ -811,6 +852,15 @@
       var top = r.top + window.scrollY;
       if (a.kind === "point") top += (a.ry || 0) * r.height;
       return top;
+    },
+    // Nach visueller Position sortieren; _annoTop (DOM-Abfragen) wird dabei
+    // einmal pro Annotation berechnet, nicht einmal pro Vergleich.
+    _sortByTop: function (annos) {
+      var self = this;
+      return annos
+        .map(function (a) { return { a: a, top: self._annoTop(a) }; })
+        .sort(function (x, y) { return x.top - y.top; })
+        .map(function (x) { return x.a; });
     },
 
     /* ---- Floating-Menü ----------------------------------------------- */
@@ -851,10 +901,12 @@
         self._gutterEl.classList.remove("is-dragging");
         document.removeEventListener("pointermove", move);
         document.removeEventListener("pointerup", up);
+        document.removeEventListener("pointercancel", up);
         try { self._gutterEl.releasePointerCapture(e.pointerId); } catch (_) {}
       };
       document.addEventListener("pointermove", move);
       document.addEventListener("pointerup", up);
+      document.addEventListener("pointercancel", up);
     },
 
     _emitChange: function () {
@@ -906,6 +958,7 @@
     /* ---- Textoffsets im Container ----------------------------------- */
     _textNodes: function (root) {
       var out = [];
+      var exclude = this.exclude;
       var w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
         acceptNode: function (node) {
           var p = node.parentNode;
@@ -917,6 +970,7 @@
             return NodeFilter.FILTER_REJECT;
           }
           if (p.closest && p.closest("[data-kommentare-ui]")) return NodeFilter.FILTER_REJECT;
+          if (exclude && p.closest && p.closest(exclude)) return NodeFilter.FILTER_REJECT;
           return NodeFilter.FILTER_ACCEPT;
         }
       });
@@ -1019,12 +1073,22 @@
     },
 
     /* ---- Auswahl -> Kommentar --------------------------------------- */
+    // Liegt der Knoten in werkzeugeigener UI oder einem ausgeschlossenen Bereich?
+    _inToolUi: function (node) {
+      var e = node && (node.nodeType === 1 ? node : node.parentNode);
+      if (!e || !e.closest) return false;
+      if (e.closest("[data-kommentare-ui]")) return true;
+      return !!(this.exclude && e.closest(this.exclude));
+    },
     _handleSelection: function () {
       if (this.readOnly || this._mode) return;
       var sel = window.getSelection();
       if (!sel.rangeCount || sel.isCollapsed) return;
       var r = sel.getRangeAt(0);
       if (!this.container.contains(r.commonAncestorContainer)) return;
+      // Auswahl, die in der Werkzeug-UI beginnt/endet (z. B. Notiz-Panel bei
+      // container=body), würde stille Offset-Fehler erzeugen -> abbrechen.
+      if (this._inToolUi(r.startContainer) || this._inToolUi(r.endContainer)) return;
       var start = this._globalOffset(r.startContainer, r.startOffset);
       var end = this._globalOffset(r.endContainer, r.endOffset);
       if (start > end) { var tmp = start; start = end; end = tmp; }
@@ -1155,10 +1219,8 @@
       var self = this, T = this.texte;
       var notes = this._notesEl;
       notes.innerHTML = "";
-      // nach visueller Position (oben->unten) sortieren; mischt Text- und Element-Annos
-      var list = Array.from(this.annos.values()).sort(function (a, b) {
-        return self._annoTop(a) - self._annoTop(b);
-      });
+      // nach visueller Position (oben->unten) sortieren; mischt alle Anno-Arten
+      var list = this._sortByTop(Array.from(this.annos.values()));
       this._emptyEl.classList.toggle("kommentare-hidden", list.length > 0);
 
       list.forEach(function (a) {
@@ -1276,7 +1338,11 @@
       var a = el("a");
       a.href = url;
       a.download = filename;
+      // Anker muss fuer manche Browser (aelteres Firefox) im Dokument haengen
+      a.style.display = "none";
+      document.body.appendChild(a);
       a.click();
+      document.body.removeChild(a);
       URL.revokeObjectURL(url);
     },
     _downloadJSON: function () {
@@ -1344,9 +1410,9 @@
     // Seiten-URL/-Titel und je Notiz Wortlaut, Kommentar, Autor:in und Datum.
     exportMarkdown: function () {
       var self = this, T = this.texte;
-      var mine = Array.from(this.annos.values())
-        .filter(function (a) { return a.author === self.autor; })
-        .sort(function (a, b) { return a.pos.start - b.pos.start; });
+      // visuelle Reihenfolge; Element-/Punkt-Annos haben kein pos
+      var mine = this._sortByTop(Array.from(this.annos.values())
+        .filter(function (a) { return a.author === self.autor; }));
       var title = (global.document && document.title) || "";
       var out = [];
       out.push("# " + T.notizenKopf + (title ? " – " + title : ""));
@@ -1357,7 +1423,16 @@
       out.push("");
       if (!mine.length) out.push("_" + T.keineNotizen + "_");
       mine.forEach(function (a, i) {
-        out.push("## " + (i + 1) + ". „" + a.quote + "“");
+        var head;
+        if (a.kind === "element") {
+          head = "⬚ " + (a.tag || T.elementLabel) +
+            (a.fingerprint ? ": „" + a.fingerprint + "“" : "");
+        } else if (a.kind === "point") {
+          head = "📍 " + T.punktLabel + (a.tag ? " · " + a.tag : "");
+        } else {
+          head = "„" + a.quote + "“";
+        }
+        out.push("## " + (i + 1) + ". " + head);
         out.push("");
         out.push(a.body);
         out.push("");
@@ -1406,6 +1481,11 @@
         global.removeEventListener("resize", this._onRepos);
       }
       if (this._ro) { this._ro.disconnect(); this._ro = null; }
+      if (this._mq && this._onMqChange) {
+        if (this._mq.removeEventListener) this._mq.removeEventListener("change", this._onMqChange);
+        else if (this._mq.removeListener) this._mq.removeListener(this._onMqChange);
+        this._mq = null;
+      }
 
       // Markierungen entfernen, Ausgangs-DOM wiederherstellen
       this._unwrapMarks();
