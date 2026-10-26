@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this repository is
 
-This repo contains **only a pre-built, static output artifact**: a single self-contained `index.html` (~230KB, minified React app bundled by Vite) that serves as a clickable UI mockup of the "STAR" sustainability tool frontend. There is no source code, no `package.json`, and no build tooling here — the entire app (JS + CSS) is inlined into `index.html` so it opens directly via `file://` with no server, no install step, and no dependencies. All data in the mockup is mocked; there is no backend and no real data.
+This repo contains **only a pre-built, static output artifact**: a single self-contained `index.html` (~700KB, minified React app bundled by Vite, fonts inlined) that serves as a clickable UI mockup of the "STAR" sustainability tool frontend. There is no source code, no `package.json`, and no build tooling here — the entire app (JS + CSS) is inlined into `index.html` so it opens directly via `file://` with no server, no install step, and no dependencies. All data in the mockup is mocked; there is no backend and no real data.
 
 Because there is nothing to compile, lint, or test in this repo, there are no build/lint/test commands to run here. Do not attempt to `npm install` or add tooling to this repo — it is intentionally just the built output.
 

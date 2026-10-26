@@ -28,6 +28,47 @@
 (function (global) {
   "use strict";
 
+  /* Icons: selbst gehostetes Lucide-Set (ISC-Lizenz, lucide-static 0.460.0 — dieselben SVGs wie
+     cse-star-app/src/icons/lucide), als Inline-SVG; keine Emojis, kein CDN. */
+  var ICONS = {
+    menu: '<line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/>',
+    sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/>' +
+      '<path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/>' +
+      '<path d="m19.07 4.93-1.41 1.41"/>',
+    moon: '<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>',
+    "square-dashed": '<path d="M5 3a2 2 0 0 0-2 2"/><path d="M19 3a2 2 0 0 1 2 2"/><path d="M21 19a2 2 0 0 1-2 2"/>' +
+      '<path d="M5 21a2 2 0 0 1-2-2"/><path d="M9 3h1"/><path d="M9 21h1"/><path d="M14 3h1"/><path d="M14 21h1"/>' +
+      '<path d="M3 9v1"/><path d="M21 9v1"/><path d="M3 14v1"/><path d="M21 14v1"/>',
+    "map-pin": '<path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/>' +
+      '<circle cx="12" cy="10" r="3"/>'
+  };
+
+  /** Icon als SVG-Element (dekorativ, Strichfarbe = Textfarbe). */
+  function icon(name, size) {
+    var px = String(size || 16);
+    var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.setAttribute("width", px);
+    svg.setAttribute("height", px);
+    svg.setAttribute("viewBox", "0 0 24 24");
+    svg.setAttribute("fill", "none");
+    svg.setAttribute("stroke", "currentColor");
+    svg.setAttribute("stroke-width", "2");
+    svg.setAttribute("stroke-linecap", "round");
+    svg.setAttribute("stroke-linejoin", "round");
+    svg.setAttribute("aria-hidden", "true");
+    svg.setAttribute("focusable", "false");
+    svg.style.verticalAlign = "-0.15em";
+    svg.innerHTML = ICONS[name];
+    return svg;
+  }
+
+  /** Inhalt eines Elements ersetzen: Icon + Text. */
+  function setIconText(node, name, text, size) {
+    node.textContent = "";
+    node.appendChild(icon(name, size));
+    if (text) node.appendChild(document.createTextNode(" " + text));
+  }
+
   /* Zentral gebündelte, leicht anpassbare deutsche UI-Texte (Standard).
      Pro Instanz über options.texte überschreibbar (mehrsprachige Einbindung). */
   var TEXTE = {
@@ -456,7 +497,7 @@
         fab.setAttribute("aria-expanded", "false");
         fab.setAttribute("aria-controls", panel.id);
         fab.setAttribute("data-kommentare-ui", "1");
-        fab.textContent = "☰";
+        fab.appendChild(icon("menu", 22));
         document.body.appendChild(panel);
         document.body.appendChild(fab);
         this._insertedNodes.push(panel, fab);
@@ -944,7 +985,7 @@
     _updateThemeBtn: function () {
       if (!this._themeBtn) return;
       var eff = this._effectiveTheme();
-      this._themeBtn.textContent = eff === "dark" ? "☀" : "☾";
+      setIconText(this._themeBtn, eff === "dark" ? "sun" : "moon", "", 16);
       this._themeBtn.setAttribute("aria-label", this.texte.themeAria);
       this._themeBtn.title = this.texte.themeAria;
       this._themeBtn.setAttribute("aria-pressed", eff === "dark" ? "true" : "false");
@@ -1232,11 +1273,11 @@
         var quoteEl = el("blockquote");
         if (a.kind === "element") {
           note.classList.add("kommentare-note-element");
-          quoteEl.textContent = "⬚ " + (a.tag || T.elementLabel) +
-            (a.fingerprint ? ": „" + a.fingerprint + "“" : "");
+          setIconText(quoteEl, "square-dashed", (a.tag || T.elementLabel) +
+            (a.fingerprint ? ": „" + a.fingerprint + "“" : ""), 14);
         } else if (a.kind === "point") {
           note.classList.add("kommentare-note-point");
-          quoteEl.textContent = "📍 " + T.punktLabel + (a.tag ? " · " + a.tag : "");
+          setIconText(quoteEl, "map-pin", T.punktLabel + (a.tag ? " · " + a.tag : ""), 14);
         } else {
           quoteEl.textContent = "„" + a.quote + "“";
         }
@@ -1425,10 +1466,10 @@
       mine.forEach(function (a, i) {
         var head;
         if (a.kind === "element") {
-          head = "⬚ " + (a.tag || T.elementLabel) +
+          head = (a.tag || T.elementLabel) +
             (a.fingerprint ? ": „" + a.fingerprint + "“" : "");
         } else if (a.kind === "point") {
-          head = "📍 " + T.punktLabel + (a.tag ? " · " + a.tag : "");
+          head = T.punktLabel + (a.tag ? " · " + a.tag : "");
         } else {
           head = "„" + a.quote + "“";
         }
